@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Kas & Donatur</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .stat-card .amount {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table thead {
+            background: #667eea;
+            color: white;
+        }
+
+        table th, table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table tbody tr:hover {
+            background: #f5f5f5;
+        }
+
+        .badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+
+        .badge.masuk {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge.keluar {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .login-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            color: #667eea;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(0,0,0,0.3);
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            table {
+                font-size: 0.9em;
+            }
+
+            .section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="login-btn" onclick="window.location.href='admin.html'">Login Admin</button>
+
+    <div class="container">
+        <div class="header">
+            <h1>📊 Sistem Kas & Donatur</h1>
+            <p>Transparansi Keuangan dan Daftar Donatur</p>
+        </div>
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <h3>Total Kas Masuk</h3>
+                <div class="amount" id="totalMasuk">Rp 0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Total Kas Keluar</h3>
+                <div class="amount" id="totalKeluar">Rp 0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Saldo Akhir</h3>
+                <div class="amount" id="saldo">Rp 0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Total Donatur</h3>
+                <div class="amount" id="totalDonatur">0</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>💰 Laporan Kas</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tanggal</th>
+                        <th>Keterangan</th>
+                        <th>Jenis</th>
+                        <th>Jumlah</th>
+                    </tr>
+                </thead>
+                <tbody id="kasTable">
+                    <tr>
+                        <td colspan="4" class="no-data">Memuat data...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>🤝 Daftar Donatur</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nama</th>
+                        <th>Email</th>
+                        <th>Telepon</th>
+                        <th>Total Donasi</th>
+                        <th>Tanggal Bergabung</th>
+                    </tr>
+                </thead>
+                <tbody id="donaturTable">
+                    <tr>
+                        <td colspan="5" class="no-data">Memuat data...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function formatRupiah(angka) {
+            return 'Rp ' + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+
+        function formatTanggal(tanggal) {
+            const date = new Date(tanggal);
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return date.toLocaleDateString('id-ID', options);
+        }
+
+        async function loadData() {
+            try {
+                const response = await fetch('db.json');
+                const data = await response.json();
+
+                // Update statistik
+                let totalMasuk = 0;
+                let totalKeluar = 0;
+
+                data.laporan_kas.forEach(item => {
+                    if (item.jenis === 'masuk') {
+                        totalMasuk += item.jumlah;
+                    } else {
+                        totalKeluar += item.jumlah;
+                    }
+                });
+
+                document.getElementById('totalMasuk').textContent = formatRupiah(totalMasuk);
+                document.getElementById('totalKeluar').textContent = formatRupiah(totalKeluar);
+                document.getElementById('saldo').textContent = formatRupiah(totalMasuk - totalKeluar);
+                document.getElementById('totalDonatur').textContent = data.donatur.length;
+
+                // Load tabel kas
+                const kasTable = document.getElementById('kasTable');
+                if (data.laporan_kas.length === 0) {
+                    kasTable.innerHTML = '<tr><td colspan="4" class="no-data">Belum ada data laporan kas</td></tr>';
+                } else {
+                    kasTable.innerHTML = data.laporan_kas.map(item => `
+                        <tr>
+                            <td>${formatTanggal(item.tanggal)}</td>
+                            <td>${item.keterangan}</td>
+                            <td><span class="badge ${item.jenis}">${item.jenis.toUpperCase()}</span></td>
+                            <td>${formatRupiah(item.jumlah)}</td>
+                        </tr>
+                    `).join('');
+                }
+
+                // Load tabel donatur
+                const donaturTable = document.getElementById('donaturTable');
+                if (data.donatur.length === 0) {
+                    donaturTable.innerHTML = '<tr><td colspan="5" class="no-data">Belum ada data donatur</td></tr>';
+                } else {
+                    donaturTable.innerHTML = data.donatur.map(item => `
+                        <tr>
+                            <td>${item.nama}</td>
+                            <td>${item.email}</td>
+                            <td>${item.telepon}</td>
+                            <td>${formatRupiah(item.total_donasi)}</td>
+                            <td>${formatTanggal(item.tanggal_bergabung)}</td>
+                        </tr>
+                    `).join('');
+                }
+            } catch (error) {
+                console.error('Error loading data:', error);
+            }
+        }
+
+        // Load data saat halaman dimuat
+        loadData();
+    </script>
+</body>
+</html>
