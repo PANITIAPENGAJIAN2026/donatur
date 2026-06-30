@@ -3,521 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Sistem Kas & Donatur</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .login-container {
-            max-width: 400px;
-            margin: 100px auto;
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        .login-container h2 {
-            text-align: center;
-            color: #667eea;
-            margin-bottom: 30px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: bold;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 1em;
-            transition: border 0.3s;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .btn {
-            width: 100%;
-            padding: 12px;
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn:hover {
-            background: #5568d3;
-            transform: translateY(-2px);
-        }
-
-        .error-msg {
-            color: #dc3545;
-            text-align: center;
-            margin-top: 10px;
-            display: none;
-        }
-
-        .admin-panel {
-            display: none;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .admin-header {
-            background: white;
-            padding: 20px 30px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .admin-header h1 {
-            color: #667eea;
-        }
-
-        .logout-btn {
-            background: #dc3545;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .tab-btn {
-            padding: 12px 30px;
-            background: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
-        }
-
-        .tab-btn.active {
-            background: #667eea;
-            color: white;
-        }
-
-        .tab-content {
-            display: none;
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        table thead {
-            background: #667eea;
-            color: white;
-        }
-
-        table th, table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        table tbody tr:hover {
-            background: #f5f5f5;
-        }
-
-        .action-btn {
-            padding: 6px 12px;
-            margin: 0 5px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .edit-btn {
-            background: #ffc107;
-            color: #333;
-        }
-
-        .delete-btn {
-            background: #dc3545;
-            color: white;
-        }
-
-        .back-btn {
-            background: #6c757d;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        @media (max-width: 768px) {
-            .admin-header {
-                flex-direction: column;
-                gap: 15px;
+    <title>Laporan Kas & Donatur</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        success: '#00B42A',
+                        danger: '#F53F3F',
+                        warning: '#FF7D00',
+                        neutral: '#86909C'
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                }
             }
-
-            .tabs {
-                flex-direction: column;
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .card-shadow {
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             }
-
-            .form-row {
-                grid-template-columns: 1fr;
+            .hover-up {
+                transition: all 0.25s ease;
+            }
+            .hover-up:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
             }
         }
     </style>
 </head>
-<body>
-    <!-- Login Form -->
-    <div class="login-container" id="loginForm">
-        <h2>🔐 Login Admin</h2>
-        <form onsubmit="login(event)">
-            <div class="form-group">
-                <label>Username</label>
-                <input type="text" id="username" required>
+<body class="font-inter bg-gray-50 min-h-screen">
+    <a href="admin.html" class="fixed top-6 right-6 z-50 bg-white hover-up px-5 py-2.5 rounded-full font-semibold text-primary card-shadow">
+        Login Admin
+    </a>
+
+    <div class="max-w-7xl mx-auto px-4 py-12">
+        <div class="text-center mb-12">
+            <h1 class="text-[clamp(1.8rem,4vw,2.8rem)] font-bold text-gray-800 mb-2">📊 Laporan Kas dan Donatur</h1>
+            <p class="text-neutral text-lg">Transparansi penuh laporan keuangan</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
+            <div class="bg-white rounded-2xl p-6 card-shadow hover-up">
+                <p class="text-neutral font-medium mb-2">Total Kas Masuk</p>
+                <p class="text-3xl font-bold text-success" id="totalMasuk">Rp 0</p>
             </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" id="password" required>
+            <div class="bg-white rounded-2xl p-6 card-shadow hover-up">
+                <p class="text-neutral font-medium mb-2">Total Kas Keluar</p>
+                <p class="text-3xl font-bold text-danger" id="totalKeluar">Rp 0</p>
             </div>
-            <button type="submit" class="btn">Login</button>
-            <p class="error-msg" id="errorMsg">Username atau password salah!</p>
-        </form>
-        <br>
-        <a href="index.html" class="back-btn" style="text-align: center; display: block;">Kembali ke Beranda</a>
-    </div>
-
-    <!-- Admin Panel -->
-    <div class="admin-panel" id="adminPanel">
-        <div class="admin-header">
-            <h1>🎛️ Panel Admin</h1>
-            <button class="logout-btn" onclick="logout()">Logout</button>
+            <div class="bg-white rounded-2xl p-6 card-shadow hover-up">
+                <p class="text-neutral font-medium mb-2">Saldo Akhir</p>
+                <p class="text-3xl font-bold text-primary" id="saldo">Rp 0</p>
+            </div>
+            <div class="bg-white rounded-2xl p-6 card-shadow hover-up">
+                <p class="text-neutral font-medium mb-2">Jumlah Donatur</p>
+                <p class="text-3xl font-bold text-gray-800" id="totalDonatur">0</p>
+            </div>
         </div>
 
-        <div class="tabs">
-            <button class="tab-btn active" onclick="showTab('kas')">💰 Laporan Kas</button>
-            <button class="tab-btn" onclick="showTab('donatur')">🤝 Donatur</button>
+        <div class="bg-white rounded-2xl card-shadow p-6 mb-8">
+            <h2 class="text-xl font-bold mb-5 text-gray-800">💰 Laporan Kas</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="border-b border-gray-200">
+                            <th class="text-left py-4 px-4 font-semibold text-gray-600">Tanggal</th>
+                            <th class="text-left py-4 px-4 font-semibold text-gray-600">Keterangan</th>
+                            <th class="text-left py-4 px-4 font-semibold text-gray-600">Jenis</th>
+                            <th class="text-right py-4 px-4 font-semibold text-gray-600">Jumlah</th>
+                        </tr>
+                    </thead>
+                    <tbody id="kasTable">
+                    </tbody>
+                </table>
+            </div>
         </div>
 
-        <!-- Tab Laporan Kas -->
-        <div class="tab-content active" id="kasTab">
-            <h2>Tambah Laporan Kas</h2>
-            <form onsubmit="tambahKas(event)">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Tanggal</label>
-                        <input type="date" id="kasTanggal" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Jenis</label>
-                        <select id="kasJenis" class="form-group input" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px;" required>
-                            <option value="masuk">Masuk</option>
-                            <option value="keluar">Keluar</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Keterangan</label>
-                        <input type="text" id="kasKeterangan" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Jumlah (Rp)</label>
-                        <input type="number" id="kasJumlah" required>
-                    </div>
-                </div>
-                <button type="submit" class="btn">Tambah Laporan</button>
-            </form>
-
-            <h2 style="margin-top: 30px;">Daftar Laporan Kas</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Tanggal</th>
-                        <th>Keterangan</th>
-                        <th>Jenis</th>
-                        <th>Jumlah</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody id="kasTableBody"></tbody>
-            </table>
-        </div>
-
-        <!-- Tab Donatur -->
-        <div class="tab-content" id="donaturTab">
-            <h2>Tambah Donatur</h2>
-            <form onsubmit="tambahDonatur(event)">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Nama</label>
-                        <input type="text" id="donaturNama" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" id="donaturEmail" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Telepon</label>
-                        <input type="tel" id="donaturTelepon" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Total Donasi (Rp)</label>
-                        <input type="number" id="donaturDonasi" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Tanggal Bergabung</label>
-                    <input type="date" id="donaturTanggal" required>
-                </div>
-                <button type="submit" class="btn">Tambah Donatur</button>
-            </form>
-
-            <h2 style="margin-top: 30px;">Daftar Donatur</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nama</th>
-                        <th>Email</th>
-                        <th>Telepon</th>
-                        <th>Total Donasi</th>
-                        <th>Tanggal Bergabung</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody id="donaturTableBody"></tbody>
-            </table>
+        <div class="bg-white rounded-2xl card-shadow p-6">
+            <h2 class="text-xl font-bold mb-5 text-gray-800">🤝 Daftar Donatur</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="border-b border-gray-200">
+                            <th class="text-left py-4 px-4 font-semibold text-gray-600">Nama</th>
+                            <th class="text-left py-4 px-4 font-semibold text-gray-600">Telepon</th>
+                            <th class="text-left py-4 px-4 font-semibold text-gray-600">Tanggal</th>
+                            <th class="text-right py-4 px-4 font-semibold text-gray-600">Total Donasi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="donaturTable">
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
     <script>
-        let data = {
-            admin: { username: 'admin', password: 'admin123' },
-            laporan_kas: [],
-            donatur: []
-        };
-
-        // Load data dari localStorage atau db.json
-        async function loadData() {
-            try {
-                const response = await fetch('db.json');
-                const jsonData = await response.json();
-                
-                // Cek jika ada data di localStorage
-                const savedData = localStorage.getItem('kasDonatData');
-                if (savedData) {
-                    data = JSON.parse(savedData);
-                } else {
-                    data = jsonData;
-                }
-                
-                updateTables();
-            } catch (error) {
-                console.error('Error loading data:', error);
-            }
-        }
-
-        function saveData() {
-            localStorage.setItem('kasDonatData', JSON.stringify(data));
-        }
-
-        function login(event) {
-            event.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            if (username === data.admin.username && password === data.admin.password) {
-                document.getElementById('loginForm').style.display = 'none';
-                document.getElementById('adminPanel').style.display = 'block';
-                loadData();
-            } else {
-                document.getElementById('errorMsg').style.display = 'block';
-            }
-        }
-
-        function logout() {
-            document.getElementById('loginForm').style.display = 'block';
-            document.getElementById('adminPanel').style.display = 'none';
-            document.getElementById('username').value = '';
-            document.getElementById('password').value = '';
-            document.getElementById('errorMsg').style.display = 'none';
-        }
-
-        function showTab(tabName) {
-            // Hide all tabs
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-
-            // Show selected tab
-            document.getElementById(tabName + 'Tab').classList.add('active');
-            event.target.classList.add('active');
-        }
-
-        function tambahKas(event) {
-            event.preventDefault();
-            
-            const newKas = {
-                id: data.laporan_kas.length + 1,
-                tanggal: document.getElementById('kasTanggal').value,
-                keterangan: document.getElementById('kasKeterangan').value,
-                jenis: document.getElementById('kasJenis').value,
-                jumlah: parseInt(document.getElementById('kasJumlah').value)
-            };
-
-            data.laporan_kas.push(newKas);
-            saveData();
-            updateTables();
-            event.target.reset();
-            alert('Laporan kas berhasil ditambahkan!');
-        }
-
-        function tambahDonatur(event) {
-            event.preventDefault();
-            
-            const newDonatur = {
-                id: data.donatur.length + 1,
-                nama: document.getElementById('donaturNama').value,
-                email: document.getElementById('donaturEmail').value,
-                telepon: document.getElementById('donaturTelepon').value,
-                total_donasi: parseInt(document.getElementById('donaturDonasi').value),
-                tanggal_bergabung: document.getElementById('donaturTanggal').value
-            };
-
-            data.donatur.push(newDonatur);
-            saveData();
-            updateTables();
-            event.target.reset();
-            alert('Donatur berhasil ditambahkan!');
-        }
-
-        function hapusKas(id) {
-            if (confirm('Yakin ingin menghapus data ini?')) {
-                data.laporan_kas = data.laporan_kas.filter(item => item.id !== id);
-                saveData();
-                updateTables();
-            }
-        }
-
-        function hapusDonatur(id) {
-            if (confirm('Yakin ingin menghapus data ini?')) {
-                data.donatur = data.donatur.filter(item => item.id !== id);
-                saveData();
-                updateTables();
-            }
-        }
-
         function formatRupiah(angka) {
             return 'Rp ' + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
         }
 
         function formatTanggal(tanggal) {
-            const date = new Date(tanggal);
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            return date.toLocaleDateString('id-ID', options);
+            return new Date(tanggal).toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'})
         }
 
-        function updateTables() {
-            // Update tabel kas
-            const kasTableBody = document.getElementById('kasTableBody');
-            kasTableBody.innerHTML = data.laporan_kas.map(item => `
-                <tr>
-                    <td>${formatTanggal(item.tanggal)}</td>
-                    <td>${item.keterangan}</td>
-                    <td><span class="badge ${item.jenis}">${item.jenis.toUpperCase()}</span></td>
-                    <td>${formatRupiah(item.jumlah)}</td>
-                    <td>
-                        <button class="action-btn delete-btn" onclick="hapusKas(${item.id})">Hapus</button>
+        function getData() {
+            const local = localStorage.getItem('kasData');
+            if(local) return JSON.parse(local);
+            
+            // Jika belum ada data ambil dari db.json
+            fetch('db.json').then(res => res.json()).then(data => {
+                localStorage.setItem('kasData', JSON.stringify(data));
+                location.reload();
+            })
+            return {laporan_kas:[], donatur:[]}
+        }
+
+        function loadData() {
+            const data = getData();
+
+            let masuk = 0, keluar = 0;
+            data.laporan_kas.forEach(i => i.jenis == 'masuk' ? masuk += i.jumlah : keluar += i.jumlah);
+
+            document.getElementById('totalMasuk').textContent = formatRupiah(masuk);
+            document.getElementById('totalKeluar').textContent = formatRupiah(keluar);
+            document.getElementById('saldo').textContent = formatRupiah(masuk - keluar);
+            document.getElementById('totalDonatur').textContent = data.donatur.length;
+
+            document.getElementById('kasTable').innerHTML = data.laporan_kas.sort((a,b) => new Date(b.tanggal) - new Date(a.tanggal)).map(item => `
+                <tr class="border-b border-gray-100 hover:bg-gray-50">
+                    <td class="py-4 px-4">\({formatTanggal(item.tanggal)}</td>
+                    <td class="py-4 px-4">\){item.keterangan}</td>
+                    <td class="py-4 px-4">
+                        <span class="px-2.5 py-1 rounded-full text-xs font-semibold \({item.jenis == 'masuk' ? 'bg-green-50 text-success' : 'bg-red-50 text-danger'}">
+                            \){item.jenis.toUpperCase()}
+                        </span>
                     </td>
+                    <td class="py-4 px-4 text-right font-medium">\({formatRupiah(item.jumlah)}</td>
                 </tr>
             `).join('');
 
-            // Update tabel donatur
-            const donaturTableBody = document.getElementById('donaturTableBody');
-            donaturTableBody.innerHTML = data.donatur.map(item => `
-                <tr>
-                    <td>${item.nama}</td>
-                    <td>${item.email}</td>
-                    <td>${item.telepon}</td>
-                    <td>${formatRupiah(item.total_donasi)}</td>
-                    <td>${formatTanggal(item.tanggal_bergabung)}</td>
-                    <td>
-                        <button class="action-btn delete-btn" onclick="hapusDonatur(${item.id})">Hapus</button>
-                    </td>
+            document.getElementById('donaturTable').innerHTML = data.donatur.sort((a,b) => b.total_donasi - a.total_donasi).map(item => `
+                <tr class="border-b border-gray-100 hover:bg-gray-50">
+                    <td class="py-4 px-4 font-medium">\){item.nama}</td>
+                    <td class="py-4 px-4">\({item.telepon}</td>
+                    <td class="py-4 px-4">\){formatTanggal(item.tanggal_bergabung)}</td>
+                    <td class="py-4 px-4 text-right font-medium">\({formatRupiah(item.total_donasi)}</td>
                 </tr>
             `).join('');
         }
 
-        // Set tanggal hari ini sebagai default
-        document.addEventListener('DOMContentLoaded', function() {
-            const today = new Date().toISOString().split('T')[0];
-            if (document.getElementById('kasTanggal')) {
-                document.getElementById('kasTanggal').value = today;
-            }
-            if (document.getElementById('donaturTanggal')) {
-                document.getElementById('donaturTanggal').value = today;
-            }
-        });
+        // Auto refresh data setiap 2 detik
+        loadData();
+        setInterval(loadData, 2000);
     </script>
 </body>
 </html>
