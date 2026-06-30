@@ -3,169 +3,502 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laporan Kas & Donatur</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#165DFF',
-                        success: '#00B42A',
-                        danger: '#F53F3F',
-                        warning: '#FF7D00',
-                        neutral: '#86909C'
-                    },
-                    fontFamily: {
-                        inter: ['Inter', 'sans-serif'],
-                    },
-                }
-            }
+    <title>Sistem Kas & Donatur</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
         }
-    </script>
-    <style type="text/tailwindcss">
-        @layer utilities {
-            .card-shadow {
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+
+        body {
+            background: #f0f2f5;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand {
+            color: white;
+            font-size: 1.5em;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .login-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 10px 25px;
+            border: 2px solid white;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95em;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .login-btn:hover {
+            background: white;
+            color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .hero h1 {
+            font-size: 2.5em;
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .hero p {
+            color: #718096;
+            font-size: 1.1em;
+        }
+
+        /* Stats Cards */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+        }
+
+        .stat-card.green::before { background: #48bb78; }
+        .stat-card.red::before { background: #f56565; }
+        .stat-card.blue::before { background: #4299e1; }
+        .stat-card.purple::before { background: #9f7aea; }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.12);
+        }
+
+        .stat-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .stat-card h3 {
+            color: #a0aec0;
+            font-size: 0.85em;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .amount {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #2d3748;
+        }
+
+        /* Section */
+        .section {
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f2f5;
+        }
+
+        .section-header h2 {
+            color: #2d3748;
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+
+        .section-icon {
+            font-size: 1.8em;
+        }
+
+        /* Table */
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table thead th {
+            background: #f7fafc;
+            color: #4a5568;
+            padding: 16px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        table tbody td {
+            padding: 16px;
+            border-bottom: 1px solid #f0f2f5;
+            color: #2d3748;
+        }
+
+        table tbody tr {
+            transition: all 0.2s;
+        }
+
+        table tbody tr:hover {
+            background: #f7fafc;
+        }
+
+        .badge {
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.8em;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .badge.masuk {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .badge.keluar {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+
+        .amount-cell {
+            font-weight: 600;
+        }
+
+        .amount-masuk { color: #48bb78; }
+        .amount-keluar { color: #f56565; }
+
+        .no-data {
+            text-align: center;
+            padding: 50px;
+            color: #a0aec0;
+        }
+
+        .no-data-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        /* Donatur Card View */
+        .donatur-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .donatur-card {
+            background: linear-gradient(135deg, #f6f9fc 0%, #ffffff 100%);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s;
+        }
+
+        .donatur-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .donatur-avatar {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .donatur-name {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .donatur-info {
+            color: #718096;
+            font-size: 0.9em;
+            margin: 5px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .donatur-donation {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #48bb78;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 20px;
             }
-            .hover-up {
-                transition: all 0.25s ease;
+
+            .navbar-brand {
+                font-size: 1.2em;
             }
-            .hover-up:hover {
-                transform: translateY(-3px);
-                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+
+            .hero h1 {
+                font-size: 1.8em;
+            }
+
+            .section {
+                padding: 20px;
+            }
+
+            .stat-card {
+                padding: 20px;
             }
         }
     </style>
 </head>
-<body class="font-inter bg-gray-50 min-h-screen">
-    <a href="admin.html" class="fixed top-6 right-6 z-50 bg-white hover-up px-5 py-2.5 rounded-full font-semibold text-primary card-shadow">
-        Login Admin
-    </a>
+<body>
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <span>📊</span>
+            <span>Kas & Donatur</span>
+        </div>
+        <button class="login-btn" onclick="window.location.href='admin.html'">
+            🔐 Login Admin
+        </button>
+    </nav>
 
-    <div class="max-w-7xl mx-auto px-4 py-12">
-        <div class="text-center mb-12">
-            <h1 class="text-[clamp(1.8rem,4vw,2.8rem)] font-bold text-gray-800 mb-2">📊 Laporan Kas dan Donatur</h1>
-            <p class="text-neutral text-lg">Transparansi penuh laporan keuangan</p>
+    <div class="container">
+        <div class="hero">
+            <h1>Transparansi Keuangan</h1>
+            <p>Laporan Kas dan Daftar Donatur Terkini</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
-            <div class="bg-white rounded-2xl p-6 card-shadow hover-up">
-                <p class="text-neutral font-medium mb-2">Total Kas Masuk</p>
-                <p class="text-3xl font-bold text-success" id="totalMasuk">Rp 0</p>
+        <div class="stats-container">
+            <div class="stat-card green">
+                <div class="stat-icon">💵</div>
+                <h3>Total Kas Masuk</h3>
+                <div class="amount" id="totalMasuk">Rp 0</div>
             </div>
-            <div class="bg-white rounded-2xl p-6 card-shadow hover-up">
-                <p class="text-neutral font-medium mb-2">Total Kas Keluar</p>
-                <p class="text-3xl font-bold text-danger" id="totalKeluar">Rp 0</p>
+            <div class="stat-card red">
+                <div class="stat-icon">💸</div>
+                <h3>Total Kas Keluar</h3>
+                <div class="amount" id="totalKeluar">Rp 0</div>
             </div>
-            <div class="bg-white rounded-2xl p-6 card-shadow hover-up">
-                <p class="text-neutral font-medium mb-2">Saldo Akhir</p>
-                <p class="text-3xl font-bold text-primary" id="saldo">Rp 0</p>
+            <div class="stat-card blue">
+                <div class="stat-icon">💰</div>
+                <h3>Saldo Akhir</h3>
+                <div class="amount" id="saldo">Rp 0</div>
             </div>
-            <div class="bg-white rounded-2xl p-6 card-shadow hover-up">
-                <p class="text-neutral font-medium mb-2">Jumlah Donatur</p>
-                <p class="text-3xl font-bold text-gray-800" id="totalDonatur">0</p>
+            <div class="stat-card purple">
+                <div class="stat-icon">🤝</div>
+                <h3>Total Donatur</h3>
+                <div class="amount" id="totalDonatur">0</div>
             </div>
         </div>
 
-        <div class="bg-white rounded-2xl card-shadow p-6 mb-8">
-            <h2 class="text-xl font-bold mb-5 text-gray-800">💰 Laporan Kas</h2>
-            <div class="overflow-x-auto">
-                <table class="w-full">
+        <div class="section">
+            <div class="section-header">
+                <span class="section-icon">💰</span>
+                <h2>Laporan Kas</h2>
+            </div>
+            <div class="table-wrapper">
+                <table>
                     <thead>
-                        <tr class="border-b border-gray-200">
-                            <th class="text-left py-4 px-4 font-semibold text-gray-600">Tanggal</th>
-                            <th class="text-left py-4 px-4 font-semibold text-gray-600">Keterangan</th>
-                            <th class="text-left py-4 px-4 font-semibold text-gray-600">Jenis</th>
-                            <th class="text-right py-4 px-4 font-semibold text-gray-600">Jumlah</th>
+                        <tr>
+                            <th>Tanggal</th>
+                            <th>Keterangan</th>
+                            <th>Jenis</th>
+                            <th>Jumlah</th>
                         </tr>
                     </thead>
                     <tbody id="kasTable">
+                        <tr>
+                            <td colspan="4" class="no-data">
+                                <div class="no-data-icon">📭</div>
+                                Memuat data...
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
         </div>
 
-        <div class="bg-white rounded-2xl card-shadow p-6">
-            <h2 class="text-xl font-bold mb-5 text-gray-800">🤝 Daftar Donatur</h2>
-            <div class="overflow-x-auto">
-                <table class="w-full">
-                    <thead>
-                        <tr class="border-b border-gray-200">
-                            <th class="text-left py-4 px-4 font-semibold text-gray-600">Nama</th>
-                            <th class="text-left py-4 px-4 font-semibold text-gray-600">Telepon</th>
-                            <th class="text-left py-4 px-4 font-semibold text-gray-600">Tanggal</th>
-                            <th class="text-right py-4 px-4 font-semibold text-gray-600">Total Donasi</th>
-                        </tr>
-                    </thead>
-                    <tbody id="donaturTable">
-                    </tbody>
-                </table>
+        <div class="section">
+            <div class="section-header">
+                <span class="section-icon">🤝</span>
+                <h2>Daftar Donatur</h2>
+            </div>
+            <div class="donatur-grid" id="donaturGrid">
+                <div class="no-data">
+                    <div class="no-data-icon">👥</div>
+                    Memuat data...
+                </div>
             </div>
         </div>
     </div>
 
     <script>
+        // Data default
+        const defaultData = {
+            admin: { username: 'admin', password: 'admin123' },
+            laporan_kas: [
+                { id: 1, tanggal: "2024-01-15", keterangan: "Donasi dari Ahmad", jenis: "masuk", jumlah: 5000000 },
+                { id: 2, tanggal: "2024-01-16", keterangan: "Pembelian perlengkapan", jenis: "keluar", jumlah: 1500000 },
+                { id: 3, tanggal: "2024-01-18", keterangan: "Donasi dari Siti", jenis: "masuk", jumlah: 3000000 }
+            ],
+            donatur: [
+                { id: 1, nama: "Ahmad Suryadi", email: "ahmad@email.com", telepon: "081234567890", total_donasi: 5000000, tanggal_bergabung: "2024-01-15" },
+                { id: 2, nama: "Siti Nurhaliza", email: "siti@email.com", telepon: "081234567891", total_donasi: 3000000, tanggal_bergabung: "2024-01-18" }
+            ]
+        };
+
         function formatRupiah(angka) {
             return 'Rp ' + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
         }
 
         function formatTanggal(tanggal) {
-            return new Date(tanggal).toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'})
+            const date = new Date(tanggal);
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return date.toLocaleDateString('id-ID', options);
         }
 
-        function getData() {
-            const local = localStorage.getItem('kasData');
-            if(local) return JSON.parse(local);
-            
-            // Jika belum ada data ambil dari db.json
-            fetch('db.json').then(res => res.json()).then(data => {
-                localStorage.setItem('kasData', JSON.stringify(data));
-                location.reload();
-            })
-            return {laporan_kas:[], donatur:[]}
+        function getInitials(name) {
+            return name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
         }
 
         function loadData() {
-            const data = getData();
+            // Baca dari localStorage
+            const savedData = localStorage.getItem('kasDonatData');
+            const data = savedData ? JSON.parse(savedData) : defaultData;
 
-            let masuk = 0, keluar = 0;
-            data.laporan_kas.forEach(i => i.jenis == 'masuk' ? masuk += i.jumlah : keluar += i.jumlah);
+            // Simpan default jika belum ada
+            if (!savedData) {
+                localStorage.setItem('kasDonatData', JSON.stringify(defaultData));
+            }
 
-            document.getElementById('totalMasuk').textContent = formatRupiah(masuk);
-            document.getElementById('totalKeluar').textContent = formatRupiah(keluar);
-            document.getElementById('saldo').textContent = formatRupiah(masuk - keluar);
+            // Update statistik
+            let totalMasuk = 0;
+            let totalKeluar = 0;
+
+            data.laporan_kas.forEach(item => {
+                if (item.jenis === 'masuk') {
+                    totalMasuk += item.jumlah;
+                } else {
+                    totalKeluar += item.jumlah;
+                }
+            });
+
+            document.getElementById('totalMasuk').textContent = formatRupiah(totalMasuk);
+            document.getElementById('totalKeluar').textContent = formatRupiah(totalKeluar);
+            document.getElementById('saldo').textContent = formatRupiah(totalMasuk - totalKeluar);
             document.getElementById('totalDonatur').textContent = data.donatur.length;
 
-            document.getElementById('kasTable').innerHTML = data.laporan_kas.sort((a,b) => new Date(b.tanggal) - new Date(a.tanggal)).map(item => `
-                <tr class="border-b border-gray-100 hover:bg-gray-50">
-                    <td class="py-4 px-4">\({formatTanggal(item.tanggal)}</td>
-                    <td class="py-4 px-4">\){item.keterangan}</td>
-                    <td class="py-4 px-4">
-                        <span class="px-2.5 py-1 rounded-full text-xs font-semibold \({item.jenis == 'masuk' ? 'bg-green-50 text-success' : 'bg-red-50 text-danger'}">
-                            \){item.jenis.toUpperCase()}
-                        </span>
-                    </td>
-                    <td class="py-4 px-4 text-right font-medium">\({formatRupiah(item.jumlah)}</td>
-                </tr>
-            `).join('');
+            // Load tabel kas
+            const kasTable = document.getElementById('kasTable');
+            if (data.laporan_kas.length === 0) {
+                kasTable.innerHTML = '<tr><td colspan="4" class="no-data"><div class="no-data-icon">📭</div>Belum ada data laporan kas</td></tr>';
+            } else {
+                kasTable.innerHTML = data.laporan_kas.map(item => `
+                    <tr>
+                        <td>${formatTanggal(item.tanggal)}</td>
+                        <td>${item.keterangan}</td>
+                        <td><span class="badge ${item.jenis}">${item.jenis.toUpperCase()}</span></td>
+                        <td class="amount-cell amount-${item.jenis}">${formatRupiah(item.jumlah)}</td>
+                    </tr>
+                `).join('');
+            }
 
-            document.getElementById('donaturTable').innerHTML = data.donatur.sort((a,b) => b.total_donasi - a.total_donasi).map(item => `
-                <tr class="border-b border-gray-100 hover:bg-gray-50">
-                    <td class="py-4 px-4 font-medium">\){item.nama}</td>
-                    <td class="py-4 px-4">\({item.telepon}</td>
-                    <td class="py-4 px-4">\){formatTanggal(item.tanggal_bergabung)}</td>
-                    <td class="py-4 px-4 text-right font-medium">\({formatRupiah(item.total_donasi)}</td>
-                </tr>
-            `).join('');
+            // Load grid donatur
+            const donaturGrid = document.getElementById('donaturGrid');
+            if (data.donatur.length === 0) {
+                donaturGrid.innerHTML = '<div class="no-data"><div class="no-data-icon">👥</div>Belum ada data donatur</div>';
+            } else {
+                donaturGrid.innerHTML = data.donatur.map(item => `
+                    <div class="donatur-card">
+                        <div class="donatur-avatar">${getInitials(item.nama)}</div>
+                        <div class="donatur-name">${item.nama}</div>
+                        <div class="donatur-info">📧 ${item.email}</div>
+                        <div class="donatur-info">📱 ${item.telepon}</div>
+                        <div class="donatur-info">📅 ${formatTanggal(item.tanggal_bergabung)}</div>
+                        <div class="donatur-donation">${formatRupiah(item.total_donasi)}</div>
+                    </div>
+                `).join('');
+            }
         }
 
-        // Auto refresh data setiap 2 detik
+        // Load saat halaman dibuka
         loadData();
-        setInterval(loadData, 2000);
+
+        // Auto refresh setiap 1 detik untuk sinkronisasi
+        setInterval(loadData, 1000);
     </script>
 </body>
 </html>
