@@ -1,0 +1,85 @@
+{
+  "admin": {
+    "username": "admin",
+    "password": "admin123"
+  },
+  "laporan_kas": [
+    {
+      "id": 1,
+      "tanggal": "2024-01-15",
+      "keterangan": "Donasi dari Ahmad",
+      "jenis": "masuk",
+      "jumlah": 5000000
+    },
+    {
+      "id": 2,
+      "tanggal": "2024-01-16",
+      "keterangan": "Pembelian perlengkapan",
+      "jenis": "keluar",
+      "jumlah": 1500000
+    },
+    {
+      "id": 3,
+      "tanggal": "2024-01-18",
+      "keterangan": "Donasi dari Siti",
+      "jenis": "masuk",
+      "jumlah": 3000000
+    },
+    {
+      "id": 4,
+      "tanggal": "2024-01-20",
+      "keterangan": "Biaya operasional",
+      "jenis": "keluar",
+      "jumlah": 2000000
+    },
+    {
+      "id": 5,
+      "tanggal": "2024-01-22",
+      "keterangan": "Donasi dari Budi",
+      "jenis": "masuk",
+      "jumlah": 7500000
+    }
+  ],
+  "donatur": [
+    {
+      "id": 1,
+      "nama": "Ahmad Suryadi",
+      "email": "ahmad.suryadi@email.com",
+      "telepon": "081234567890",
+      "total_donasi": 5000000,
+      "tanggal_bergabung": "2024-01-15"
+    },
+    {
+      "id": 2,
+      "nama": "Siti Nurhaliza",
+      "email": "siti.nur@email.com",
+      "telepon": "081234567891",
+      "total_donasi": 3000000,
+      "tanggal_bergabung": "2024-01-18"
+    },
+    {
+      "id": 3,
+      "nama": "Budi Santoso",
+      "email": "budi.santoso@email.com",
+      "telepon": "081234567892",
+      "total_donasi": 7500000,
+      "tanggal_bergabung": "2024-01-22"
+    },
+    {
+      "id": 4,
+      "nama": "Dewi Kusuma",
+      "email": "dewi.kusuma@email.com",
+      "telepon": "081234567893",
+      "total_donasi": 2500000,
+      "tanggal_bergabung": "2024-01-25"
+    },
+    {
+      "id": 5,
+      "nama": "Eko Prasetyo",
+      "email": "eko.prasetyo@email.com",
+      "telepon": "081234567894",
+      "total_donasi": 4000000,
+      "tanggal_bergabung": "2024-01-28"
+    }
+  ]
+}
